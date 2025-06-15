@@ -1,50 +1,45 @@
-public class InventoryManager {
+public class Inventory {
+    private Item[] items;
+    private int currentItemCount;
 
-    public static void main(String[] args) {
-        Item[] inventory = new Item[10];
-        int currentItemCount = 0;
-
-        inventory[currentItemCount++] = new Item("Pensil", 50, 200);
-        inventory[currentItemCount++] = new Item("Buku", 30, 15000);
-        inventory[currentItemCount++] = new Item("Penghapus", 20, 500);
-
-        System.out.println("Enter the name of the item to update: Pensil");
-        System.out.println("Enter the new stock amount: 60\n");
-        updateStock("Pensil", 60, inventory, currentItemCount);
-
-        displayInventory(inventory, currentItemCount);
-
-        System.out.println("Enter the name of the item to search: Buku");
-        searchItem("Buku", inventory, currentItemCount);
+    public Inventory(int capacity) {
+        this.items = new Item[capacity];
+        this.currentItemCount = 0;
     }
 
-    public static void displayInventory(Item[] inventory, int itemCount) {
-        System.out.println("Inventory after update:");
-        for (int i = 0; i < itemCount; i++) {
-            System.out.println((i + 1) + ". " + inventory[i]);
+    public void addItem(Item item) {
+        if (currentItemCount < items.length) {
+            items[currentItemCount++] = item;
+        }
+    }
+
+    public void display() {
+        System.out.println("Store Inventory:");
+        for (int i = 0; i < currentItemCount; i++) {
+            System.out.println((i + 1) + ". " + items[i]);
         }
         System.out.println();
     }
 
-    public static void updateStock(String name, int newStock, Item[] inventory, int itemCount) {
-        for (int i = 0; i < itemCount; i++) {
-            if (inventory[i].name().equalsIgnoreCase(name)) {
-                inventory[i] = new Item(inventory[i].name(), newStock, inventory[i].price());
+    public void updateStock(String name, int newStock) {
+        for (int i = 0; i < currentItemCount; i++) {
+            if (items[i].name().equalsIgnoreCase(name)) {
+                items[i] = new Item(items[i].name(), newStock, items[i].price());
+                System.out.println("Stock for item '" + name + "' has been updated.\n");
                 return;
             }
         }
-        System.out.println("Item with name '" + name + "' not found.");
+        System.out.println("Item with name '" + name + "' not found.\n");
     }
 
-    public static void searchItem(String name, Item[] inventory, int itemCount) {
-        System.out.println("Search result:");
-        for (int i = 0; i < itemCount; i++) {
-            if (inventory[i].name().equalsIgnoreCase(name)) {
-                System.out.println(inventory[i]);
+    public void searchItem(String name) {
+        System.out.println("Search result for '" + name + "':");
+        for (int i = 0; i < currentItemCount; i++) {
+            if (items[i].name().equalsIgnoreCase(name)) {
+                System.out.println(items[i]);
                 return;
             }
         }
         System.out.println("Item not found.");
     }
-    
 }
